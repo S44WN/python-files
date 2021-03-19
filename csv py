@@ -1,0 +1,84 @@
+import csv
+import os
+#csv file writing code
+def write_file():
+        l=[]
+        file =open('emp.csv','a')
+        fw= csv.writer(file)
+        eno=int(input("enter eno"))
+        ename=input("Enter name")
+        dept=input("Enter dept")
+        sal= float(input("Enter sal"))
+        gen=input("Enter gen ")
+        l.extend([eno,ename,dept,sal,gen])
+        fw.writerow(l)
+        file.close()
+
+#csv file reading code
+def read_file():
+        file= open('emp.csv','r')
+        frd= csv.reader(file)
+        for row in frd:
+            if(len(row)>0):
+                print (row)
+        file.close()
+
+
+def search_file():
+        file= open('emp.csv','r')
+        frd= csv.reader(file)
+        flag=False
+        d=input("enter dept to search")
+        print(frd)
+        for row in frd:
+            if(len(row)>0):
+                if d==row[2]:
+                        print (row)
+                        flag=True
+        if flag==False:
+                print("Record not found")
+        file.close()
+
+def update_file():
+        file= open('emp.csv','r')
+        frd= csv.reader(file)
+        file1= open("temp.csv",'w')
+        fw= csv.writer(file1)
+        flag=False
+        d=input("enter eno to search")
+        s=float(input("enter salary to update"))
+        for row in frd:
+          if len(row)>0:
+                    if d==row[0]:
+                        row[3]= float(row[3])+s
+                        flag=True
+                    fw.writerow(row)    
+        if flag==False:
+             print("Record not found")
+        file.close()
+        file1.close()
+        os.remove("emp.csv")
+        os.rename("temp.csv","emp.csv")
+# main prog
+
+ch= 0
+while ch!=5:
+    print("File Handling ")
+    print("1. Create file")
+    print("2. Show file")
+    print("3.Search file")
+    print("4.Update file")
+    print("5. Exit")
+    ch=int(input("Enter Choice(1-4)"))
+    if ch==1:
+          write_file()
+    elif ch==2:
+          read_file()
+    elif ch==3:
+            search_file()
+    elif ch==4:
+            update_file()
+    elif ch==5:
+          print("Quitting")
+    else:
+          print("Invalid Choice")
